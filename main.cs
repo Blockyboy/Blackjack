@@ -44,6 +44,14 @@ class Program
       ++cardindex;
     }
 
+    dealcards(2, pcards, deck);
+
+    displaycards("Player", pcards);
+
+    dealcards(2, pcards, deck);
+
+    displaycards("Player", pcards);
+    
     displaycards("Deck", deck);
     
   }
@@ -83,5 +91,17 @@ class Program
         Console.Write(", ");
       }
     }
+  }
+
+  public static void dealcards(int ncards, List<Card> card, List<Card> deck)
+  {
+    Random rand = new Random();
+    int index;
+    for(int i = 0; i < ncards; i++)
+      {
+        index = rand.Next(deck.Capacity);
+        card.Add(deck[index]);
+        deck.RemoveAt(index);
+      }
   }
 }
