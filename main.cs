@@ -20,7 +20,7 @@ class Program
     List<Card> pcards= new List<Card>();
     List<Card> dcards= new List<Card>();
 
-    foreach(var a in Enumerable.Range(0,52)) //Creates slots for deck
+    for(int i = 0; i < 52; i++)
     {
       deck.Add(new Card());
     }
@@ -48,9 +48,13 @@ class Program
 
     displaycards("Player", pcards);
 
-    dealcards(2, pcards, deck);
+    Console.WriteLine("");
 
-    displaycards("Player", pcards);
+    dealcards(2, dcards, deck);
+
+    displaycards("Dealer", dcards);
+
+    Console.WriteLine("");
     
     displaycards("Deck", deck);
     
@@ -99,7 +103,7 @@ class Program
     int index;
     for(int i = 0; i < ncards; i++)
       {
-        index = rand.Next(deck.Capacity);
+        index = rand.Next(deck.Count - 1);
         card.Add(deck[index]);
         deck.RemoveAt(index);
       }
