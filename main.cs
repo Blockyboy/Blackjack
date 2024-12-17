@@ -44,11 +44,44 @@ class Program
       ++cardindex;
     }
 
-    foreach(Card a in deck)
+    displaycards("Deck", deck);
+    
+  }
+
+  public static void displaycards(string holdername, List<Card> card) 
+  {
+    Console.WriteLine(holdername + ":");
+    foreach(Card a in card)
     {
+      if(a.number == 11)
+        {
+          Console.Write("Jack");
+        }
+      else if(a.number == 12)
+        {
+          Console.Write("Queen");
+        }
+      else if(a.number == 13)
+        {
+          Console.Write("King");
+        }
+      else if(a.number == 1)
+        {
+          Console.Write("Ace");
+        }
+      else if(a.number < 11)
+        {
+          Console.Write(a.number);
+        }
+
+      Console.Write(" of ");
+      
       Console.Write(a.suit);
-      Console.Write(Convert.ToString(a.number));
-      Console.WriteLine("");
+
+      if (a != card.Last())
+      {
+        Console.Write(", ");
+      }
     }
   }
 }
