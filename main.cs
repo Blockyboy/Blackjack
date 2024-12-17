@@ -12,6 +12,8 @@ class Program
 {
   public static void Main (string[] args) 
   {
+    bool gameover = false;
+    
     int cardindex = 0;
     
     Console.WriteLine ("Blackjack");
@@ -44,23 +46,35 @@ class Program
       ++cardindex;
     }
 
-    dealcards(2, pcards, deck);
-
-    displaycards("Player", pcards);
-
-    Console.WriteLine("");
-
     dealcards(2, dcards, deck);
 
-    displaycards("Dealer", dcards);
-
-    Console.WriteLine("");
+    dealcards(2, pcards, deck);
     
-    displaycards("Deck", deck);
+    while(!gameover)
+    {
+
+       displaycards("Player", pcards);
+
+      Console.WriteLine("");
+      Console.WriteLine(cardtotal(pcards));
+
+       Console.WriteLine("");
+
+       displaycards("Dealer", dcards);
+
+       Console.WriteLine("");
+       Console.WriteLine(cardtotal(dcards));
+
+       Console.WriteLine("");
+      
+       playerturn(pcards, deck);
+
+       Console.Clear();
+    }
+
     
   }
-
-  public static void displaycards(string holdername, List<Card> card) 
+  public static void displaycards(string holdername, List<Card> card) //Displays the cads of the given list
   {
     Console.WriteLine(holdername + ":");
     foreach(Card a in card)
@@ -97,7 +111,7 @@ class Program
     }
   }
 
-  public static void dealcards(int ncards, List<Card> card, List<Card> deck)
+  public static void dealcards(int ncards, List<Card> card, List<Card> deck) //Deals cards to given list
   {
     Random rand = new Random();
     int index;
@@ -107,5 +121,42 @@ class Program
         card.Add(deck[index]);
         deck.RemoveAt(index);
       }
+  }
+
+  public static void playerturn(List<Card> pcards, List<Card> deck) //Gets player input on turn
+  {
+    Console.WriteLine("Hit (H) or Stand (S) ?");
+      string choice = Console.ReadLine().ToUpper();
+
+      if(choice == "H")
+      {
+        Console.Clear();
+        Console.WriteLine("Hit");
+        dealcards(1, pcards, deck);
+      }
+      else if(choice == "S")
+      {
+        Console.Clear();
+        Console.WriteLine("Stand");
+      }
+  }
+
+  public static int cardtotal(List<Card> card) //Calculates total value of cards in list
+  {
+    int total = 0;
+    
+    foreach(Card a in card)
+    {
+      if(a.number > 10)
+      {
+        total += 10;
+      }
+      else
+      {
+        total += a.number;
+      }
+    }
+
+    return total;
   }
 }
