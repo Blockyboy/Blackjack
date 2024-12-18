@@ -56,14 +56,14 @@ class Program
        displaycards("Player", pcards);
 
       Console.WriteLine("");
-      Console.WriteLine(cardtotal(pcards));
+      cardtotal(pcards);
 
        Console.WriteLine("");
 
        displaycards("Dealer", dcards);
 
        Console.WriteLine("");
-       Console.WriteLine(cardtotal(dcards));
+       cardtotal(dcards);
 
        Console.WriteLine("");
       
@@ -141,22 +141,47 @@ class Program
       }
   }
 
-  public static int cardtotal(List<Card> card) //Calculates total value of cards in list
+  public static void cardtotal(List<Card> card) //Calculates total value of cards in list
   {
     int total = 0;
+    int total2 = 0;
+    
+    bool showtotal2 = false;
     
     foreach(Card a in card)
     {
       if(a.number > 10)
       {
         total += 10;
+        total2 += 10;
       }
       else
       {
         total += a.number;
+        if(a.number == 1)
+        {
+          total2 += 11;
+          showtotal2 = true;
+        }
+        else
+        {
+          total2 += a.number;
+        }
       }
     }
+    
+    if(total2 > 21)
+    {
+      showtotal2 = false;
+    } 
 
-    return total;
+    Console.Write(total);
+
+    if(showtotal2)
+    {
+      Console.Write(" or ");
+      Console.Write(total2);
+    }
+    
   }
 }
