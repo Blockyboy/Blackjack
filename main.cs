@@ -15,6 +15,9 @@ class Program
     bool gameover = false;
     
     int cardindex = 0;
+
+    bool pbust = false;
+    bool dbust = false;
     
     Console.WriteLine ("Blackjack");
     
@@ -56,20 +59,21 @@ class Program
        displaycards("Player", pcards);
 
       Console.WriteLine("");
-      cardtotal(pcards);
+      cardtotal(pcards, pbust);
 
        Console.WriteLine("");
 
        displaycards("Dealer", dcards);
 
        Console.WriteLine("");
-       cardtotal(dcards);
+       cardtotal(dcards, dbust);
 
        Console.WriteLine("");
       
        playerturn(pcards, deck);
 
        Console.Clear();
+      
     }
 
     
@@ -141,7 +145,7 @@ class Program
       }
   }
 
-  public static void cardtotal(List<Card> card) //Calculates total value of cards in list
+  public static void cardtotal(List<Card> card, bool bust) //Calculates total value of cards in list
   {
     int total = 0;
     int total2 = 0;
@@ -169,18 +173,30 @@ class Program
         }
       }
     }
-    
-    if(total2 > 21)
-    {
-      showtotal2 = false;
-    } 
 
-    Console.Write(total);
-
-    if(showtotal2)
+    if(total > 21)
     {
-      Console.Write(" or ");
-      Console.Write(total2);
+      bust = true;
+    }
+
+    if(!bust)
+    {
+      if(total2 > 21)
+      {
+        showtotal2 = false;
+      } 
+
+      Console.Write(total);
+
+      if(showtotal2)
+      {
+        Console.Write(" or ");
+        Console.Write(total2);
+      }
+    }
+    else
+    {
+      Console.Write("Bust");
     }
     
   }
