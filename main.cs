@@ -66,21 +66,21 @@ class Program
         Console.WriteLine("");
         cardtotal(pcards, ref pbust, true);
 
-        if(pbust)
-        {
-          pturnend = true;
-        }
-
          Console.WriteLine("");
 
          displaycards("Dealer", dcards, dealerhide);
 
          Console.WriteLine("");
 
+        if(pbust)
+        {
+          pturnend = true;
+        }
+        
         if(pturnend)
         {
-          dealerturn(dcards, deck,dbust,ref gameover);
           dealerhide = false;
+          dealerturn(dcards, deck,dbust,ref gameover);
           cardtotal(dcards, ref dbust, true);
         }
         else
@@ -88,13 +88,28 @@ class Program
            playerturn(pcards, deck, ref pturnend);
         }
 
-        if(gameover)
-        {
-          Console.ReadLine();
-        } 
-
-         Console.Clear();
+        Console.Clear();
       }
+
+      displaycards("Player", pcards, false);
+
+      Console.WriteLine("");
+      
+      cardtotal(pcards, ref pbust, true);
+      Console.WriteLine("");
+      
+      displaycards("Dealer", dcards, dealerhide);
+      
+      Console.WriteLine("");
+      
+      cardtotal(dcards, ref dbust, true);
+      
+      if(gameover)
+      {
+        Console.ReadLine();
+      }
+
+      Console.Clear();
 
       if(pbust && dbust)
       {
