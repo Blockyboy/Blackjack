@@ -20,6 +20,7 @@ class Program
       bool pbust = false;
       bool pturnend= false;
       bool dbust = false;
+      bool dealerhide = true;
 
       int cardindex = 0;
 
@@ -60,22 +61,23 @@ class Program
       while(!gameover)
       {
 
-         displaycards("Player", pcards);
+         displaycards("Player", pcards, false);
 
         Console.WriteLine("");
         cardtotal(pcards, ref pbust, true);
 
          Console.WriteLine("");
 
-         displaycards("Dealer", dcards);
+         displaycards("Dealer", dcards, dealerhide);
 
          Console.WriteLine("");
-         cardtotal(dcards, ref dbust, true);
 
          Console.WriteLine("");
         if(pbust || pturnend)
         {
           dealerturn(dcards, deck,dbust,ref gameover);
+          dealerhide = false;
+          cardtotal(dcards, ref dbust, true);
         }
         else
         {
@@ -133,10 +135,15 @@ class Program
       Console.Clear();
     }
   }
-  public static void displaycards(string holdername, List<Card> card) //Displays the cads of the given list
+  public static void displaycards(string holdername, List<Card> card, bool dealerhide) //Displays the cads of the given list
   {
+    List<Card> temp = new List<Card>(card);
+    if(dealerhide)
+    {
+      temp.RemoveAt(0);
+    }
     Console.WriteLine(holdername + ":");
-    foreach(Card a in card)
+    foreach(Card a in temp)
     {
       if(a.number == 11)
         {
@@ -166,6 +173,10 @@ class Program
       if (a != card.Last())
       {
         Console.Write(", ");
+      }
+      if(dealerhide)
+      {
+        Console.Write(", ?");
       }
     }
   }
