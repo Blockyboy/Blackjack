@@ -66,14 +66,18 @@ class Program
         Console.WriteLine("");
         cardtotal(pcards, ref pbust, true);
 
+        if(pbust)
+        {
+          pturnend = true;
+        }
+
          Console.WriteLine("");
 
          displaycards("Dealer", dcards, dealerhide);
 
          Console.WriteLine("");
 
-         Console.WriteLine("");
-        if(pbust || pturnend)
+        if(pturnend)
         {
           dealerturn(dcards, deck,dbust,ref gameover);
           dealerhide = false;
