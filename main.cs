@@ -21,6 +21,8 @@ class Program
       bool pturnend= false;
       bool dbust = false;
       bool dealerhide = true;
+      bool pnatural = false;
+      bool dnatural = false;
 
       int cardindex = 0;
 
@@ -64,7 +66,7 @@ class Program
          displaycards("Player", pcards, false);
 
         Console.WriteLine("");
-        cardtotal(pcards, ref pbust, true);
+        cardtotal(pcards, ref pbust, ref pnatural, true);
 
          Console.WriteLine("");
 
@@ -76,17 +78,28 @@ class Program
         {
           pturnend = true;
         }
-        
-        if(pturnend)
+
+        if(!pnatural)
         {
-          dealerhide = false;
-          dealerturn(dcards, deck,dbust,ref gameover);
-          cardtotal(dcards, ref dbust, true);
+          if(pturnend)
+          {
+            dealerhide = false;
+            cardtotal(dcards, ref dbust, ref dnatural, true);
+            dealerturn(dcards, deck,dbust, ref dnatural, pnatural, ref gameover);
+          }
+          else
+          {
+             playerturn(pcards, deck, ref pturnend);
+          }
         }
         else
         {
-           playerturn(pcards, deck, ref pturnend);
+          Console.Clear();
+          dealerhide = false;
+          cardtotal(dcards, ref dbust, ref dnatural, true);
+          dealerturn(dcards, deck,dbust, ref dnatural, pnatural, ref gameover);
         }
+        
 
         Console.Clear();
       }
@@ -95,14 +108,14 @@ class Program
 
       Console.WriteLine("");
       
-      cardtotal(pcards, ref pbust, true);
+      cardtotal(pcards, ref pbust, ref pnatural, true);
       Console.WriteLine("");
       
       displaycards("Dealer", dcards, dealerhide);
       
       Console.WriteLine("");
       
-      cardtotal(dcards, ref dbust, true);
+      cardtotal(dcards, ref dbust, ref dnatural, true);
       
       if(gameover)
       {
@@ -123,20 +136,32 @@ class Program
       {
         Console.WriteLine("Player Wins");
       }
-      if(!pbust && !dbust)
+      if(!pbust && !dbust && !pnatural && !dnatural)
       {
-        if(cardtotal(pcards, ref pbust, false) > cardtotal(dcards, ref dbust, false))
+        if(cardtotal(pcards, ref pbust, ref pnatural, false) > cardtotal(dcards, ref dbust, ref dnatural, false))
         {
           Console.WriteLine("Player Wins");
         }
-        if(cardtotal(pcards, ref pbust, false) < cardtotal(dcards, ref dbust, false))
+        if(cardtotal(pcards, ref pbust, ref pnatural, false) < cardtotal(dcards, ref dbust, ref dnatural, false))
         {
           Console.WriteLine("Dealer Wins");
         }
-        if(cardtotal(pcards, ref pbust, false) == cardtotal(dcards, ref dbust, false))
+        if(cardtotal(pcards, ref pbust, ref pnatural, false) == cardtotal(dcards, ref dbust, ref dnatural, false))
         {
           Console.WriteLine("Draw");
         }
+      }
+      if(pnatural && !dnatural)
+      {
+        Console.WriteLine("Player Wins");
+      }
+      if(!pnatural && dnatural)
+      {
+        Console.WriteLine("Dealer Wins");
+      }
+      if(pnatural && dnatural)
+      {
+        Console.WriteLine("Draw");
       }
 
       Console.WriteLine("Play Again Y/N?");
@@ -231,22 +256,34 @@ class Program
       }
   }
 
-  public static void dealerturn(List<Card> card, List<Card> deck, bool dbust, ref bool gameover) //Begins dealer turn
+  public static void dealerturn(List<Card> card, List<Card> deck, bool dbust, ref bool dnatural, bool pnatural, ref bool gameover) //Begins dealer turn
   {
-     if(cardtotal(card, ref dbust, false) < 17)
-    {
-      dealcards(1, card, deck);
-    }
-    else
-    {
-      gameover = true;
-    }
+     if(pnatural)
+     {
+       gameover = true;
+     }
+     else
+     {
+       if(cardtotal(card, ref dbust, ref dnatural, false) < 17)
+       {
+         dealcards(1, card, deck);
+       }
+       else
+       {
+         gameover = true;
+       }
+     }
   }
 
-  public static int cardtotal(List<Card> card, ref bool bust, bool displaycards) //Calculates total value of cards in list
+  public static int cardtotal(List<Card> card, ref bool bust, ref bool natural, bool displaycards) //Calculates total value of cards in list
   {
     int total = 0;
     int total2 = 0;
+
+    if((card[0].number == 1 && card[1].number >= 10) || (card[0].number == 1 && card[1].number >= 10))
+    {
+      natural = true;
+    }
     
     bool showtotal2 = false;
     
@@ -286,12 +323,19 @@ class Program
     {
       if(!bust)
       {
-        Console.Write(total);
-
-        if(showtotal2)
+        if(!natural)
         {
-          Console.Write(" or ");
-          Console.Write(total2);
+          Console.Write(total);
+
+          if(showtotal2)
+          {
+            Console.Write(" or ");
+            Console.Write(total2);
+          }
+        }
+        else
+        {
+          Console.Write("Natural");
         }
       }
       else
