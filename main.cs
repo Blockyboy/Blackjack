@@ -14,9 +14,11 @@ class Program
   {
     bool gameover = false;
     bool playagain = true;
+    int round = 0;
     
     while(playagain)
     {
+      ++round;
       bool pbust = false;
       bool pturnend= false;
       bool dbust = false;
@@ -62,6 +64,7 @@ class Program
 
       while(!gameover)
       {
+        Console.WriteLine("Round: " + round);
 
          displaycards("Player", pcards, false);
 
@@ -72,6 +75,8 @@ class Program
 
          displaycards("Dealer", dcards, dealerhide);
 
+        cardtotal(dcards, ref dbust, ref dnatural, false);
+
          Console.WriteLine("");
 
         if(pbust)
@@ -79,7 +84,7 @@ class Program
           pturnend = true;
         }
 
-        if(!pnatural)
+        if(!pnatural && !dnatural)
         {
           if(pturnend)
           {
